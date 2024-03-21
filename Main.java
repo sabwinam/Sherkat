@@ -1,11 +1,16 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
+        Admin admin = Admin.getAdmin("sara", 34765948);
+
 
     }
 }
+
 
 //---------------------------------------------------------------
 abstract class User {
@@ -35,6 +40,7 @@ abstract class User {
 
     abstract String getBasicInformation();
 }
+
 //------------------------------------------------------------------------
 abstract class Employee extends User {
     private String dateOfEmployeement;
@@ -42,6 +48,7 @@ abstract class Employee extends User {
     public Employee(String fulName, long phoneNumber, String dateOfEmployeement) {
         super(fulName, phoneNumber);
         this.dateOfEmployeement = dateOfEmployeement;
+        Admin.setEmployees(this);
     }
 
     public void setDateOfEmployeement(String dateOfEmployeement) {
@@ -61,6 +68,7 @@ abstract class Employee extends User {
 
     abstract double getSalary();
 }
+
 //--------------------------------------------------------------------
 final class FullTimeEmployee extends Employee {
     private int uncountedDays;
@@ -95,6 +103,7 @@ final class FullTimeEmployee extends Employee {
         uncountedDays += newUncountedDays;
     }
 }
+
 //----------------------------------------------------------------------------------
 final class PartTimeEmployee extends Employee {
     private int uncountedHour;
@@ -129,6 +138,7 @@ final class PartTimeEmployee extends Employee {
         uncountedHour += newUncountedDays;
     }
 }
+
 //-----------------------------------------------------------------------------
 final class ProjectEmployee extends Employee {
     private int uncountedProjects;
@@ -163,18 +173,19 @@ final class ProjectEmployee extends Employee {
         uncountedProjects += newUncountedProject;
     }
 }
+
 //--------------------------------------------------------------------
 class Admin extends User {
-    Admin admin;
+    private static Admin admin;
 
-    public Admin getAdmin(String nane, long number) {
+    public static Admin getAdmin(String nane, long number) {
         if (admin == null) {
             admin = new Admin(nane, number);
         }
         return admin;
     }
 
-    static ArrayList<Employee> employees;
+    static ArrayList<Employee> employees = new ArrayList<Employee>();
 
     private Admin(String fulName, long phoneNumber) {
         super(fulName, phoneNumber);
@@ -187,5 +198,21 @@ class Admin extends User {
 
     public static void setEmployees(Employee employee) {
         employees.add(employee);
+    }
+
+    public Object getProjectEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double wage) {
+        return (new ProjectEmployee(fulName, phoneNumber, dateOfEmployeement, wage));
+    }
+
+    public Object getPartTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double hourlySalaryRate) {
+        return (new PartTimeEmployee(fulName, phoneNumber, dateOfEmployeement, hourlySalaryRate));
+    }
+
+    public Object getFulTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double monthlySalary) {
+        return (new FullTimeEmployee(fulName, phoneNumber, dateOfEmployeement, monthlySalary));
+    }
+
+    ArrayList getEmployees() {
+        return employees;
     }
 }
