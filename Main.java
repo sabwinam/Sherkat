@@ -57,3 +57,25 @@ final class FullTimeEmployee extends Employee {
         uncountedDays+=newUncountedDays;
     }
 }
+final class PartTimeEmployee extends Employee {
+    int uncountedHour;
+    final private double hourlySalaryRate;
+
+    public PartTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double hourlySalaryRate, int uncountedHour) {
+        super(fulName, phoneNumber, dateOfEmployeement);
+        this.hourlySalaryRate = hourlySalaryRate;
+        this.uncountedHour = uncountedHour;
+    }
+
+    @Override
+    double getSalary() {
+        int temp = uncountedHour;
+        uncountedHour = 0;
+        return ((temp) * hourlySalaryRate);
+    }
+
+    @Override
+    void work(int newUncountedDays) {
+        uncountedHour += newUncountedDays;
+    }
+}
