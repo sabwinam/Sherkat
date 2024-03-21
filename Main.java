@@ -29,13 +29,14 @@ abstract class Employee extends User {
 
     @Override
     final String getBasicInformation() {
-        return ("ful name: " + String.valueOf(fulName) + '\n' + "phone number: " + String.valueOf(phoneNumber)+ '\n'+ "date of employeement: "+ dateOfEmployeement);
+        return ("ful name: " + String.valueOf(fulName) + '\n' + "phone number: " + String.valueOf(phoneNumber) + '\n' + "date of employeement: " + dateOfEmployeement);
     }
 
     abstract void work(int w);
 
     abstract double getSalary();
 }
+
 final class FullTimeEmployee extends Employee {
     int uncountedDays;
     final private double monthlySalaryRate;
@@ -52,19 +53,32 @@ final class FullTimeEmployee extends Employee {
         uncountedDays = uncountedDays % 30;
         return ((temp) * 30 * monthlySalaryRate);
     }
+
     @Override
-    void work(int newUncountedDays){
-        uncountedDays+=newUncountedDays;
+    void work(int newUncountedDays) {
+        uncountedDays += newUncountedDays;
     }
 }
+
 final class PartTimeEmployee extends Employee {
-    int uncountedHour;
+    private int uncountedHour;
     final private double hourlySalaryRate;
 
-    public PartTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double hourlySalaryRate, int uncountedHour) {
+    public PartTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double hourlySalaryRate) {
         super(fulName, phoneNumber, dateOfEmployeement);
         this.hourlySalaryRate = hourlySalaryRate;
+    }
+
+    public void setUncountedHour(int uncountedHour) {
         this.uncountedHour = uncountedHour;
+    }
+
+    public int getUncountedHour() {
+        return uncountedHour;
+    }
+
+    public double getHourlySalaryRate() {
+        return hourlySalaryRate;
     }
 
     @Override
@@ -79,11 +93,12 @@ final class PartTimeEmployee extends Employee {
         uncountedHour += newUncountedDays;
     }
 }
+
 final class ProjectEmployee extends Employee {
     private int uncountedProjects;
     final private double wage;
 
-    public ProjectEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double wage ) {
+    public ProjectEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double wage) {
         super(fulName, phoneNumber, dateOfEmployeement);
         this.wage = wage;
     }
