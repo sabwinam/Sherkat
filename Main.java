@@ -7,44 +7,80 @@ public class Main {
     }
 }
 
+//---------------------------------------------------------------
 abstract class User {
-    String fulName;
-    long phoneNumber;
+    private String fulName;
+    private long phoneNumber;
 
     public User(String fulName, long phoneNumber) {
         this.fulName = fulName;
         this.phoneNumber = phoneNumber;
     }
 
+    public void setFulName(String fulName) {
+        this.fulName = fulName;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFulName() {
+        return fulName;
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
     abstract String getBasicInformation();
 }
-
+//------------------------------------------------------------------------
 abstract class Employee extends User {
-    String dateOfEmployeement;
+    private String dateOfEmployeement;
 
     public Employee(String fulName, long phoneNumber, String dateOfEmployeement) {
         super(fulName, phoneNumber);
         this.dateOfEmployeement = dateOfEmployeement;
     }
 
+    public void setDateOfEmployeement(String dateOfEmployeement) {
+        this.dateOfEmployeement = dateOfEmployeement;
+    }
+
+    public String getDateOfEmployeement() {
+        return dateOfEmployeement;
+    }
+
     @Override
     final String getBasicInformation() {
-        return ("ful name: " + String.valueOf(fulName) + '\n' + "phone number: " + String.valueOf(phoneNumber) + '\n' + "date of employeement: " + dateOfEmployeement);
+        return ("ful name: " + String.valueOf(getFulName()) + '\n' + "phone number: " + String.valueOf(getPhoneNumber()) + '\n' + "date of employeement: " + dateOfEmployeement);
     }
 
     abstract void work(int w);
 
     abstract double getSalary();
 }
-
+//--------------------------------------------------------------------
 final class FullTimeEmployee extends Employee {
-    int uncountedDays;
+    private int uncountedDays;
     final private double monthlySalaryRate;
 
-    FullTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, int uncountedDays, double monthlySalary) {
+    FullTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, double monthlySalary) {
         super(fulName, phoneNumber, dateOfEmployeement);
         this.monthlySalaryRate = monthlySalary;
+    }
+
+    public void setUncountedDays(int uncountedDays) {
         this.uncountedDays = uncountedDays;
+    }
+
+    public int getUncountedDays() {
+        return uncountedDays;
+    }
+
+    public double getMonthlySalaryRate() {
+        return monthlySalaryRate;
     }
 
     @Override
@@ -59,7 +95,7 @@ final class FullTimeEmployee extends Employee {
         uncountedDays += newUncountedDays;
     }
 }
-
+//----------------------------------------------------------------------------------
 final class PartTimeEmployee extends Employee {
     private int uncountedHour;
     final private double hourlySalaryRate;
@@ -93,7 +129,7 @@ final class PartTimeEmployee extends Employee {
         uncountedHour += newUncountedDays;
     }
 }
-
+//-----------------------------------------------------------------------------
 final class ProjectEmployee extends Employee {
     private int uncountedProjects;
     final private double wage;
@@ -127,4 +163,29 @@ final class ProjectEmployee extends Employee {
         uncountedProjects += newUncountedProject;
     }
 }
+//--------------------------------------------------------------------
+class Admin extends User {
+    Admin admin;
 
+    public Admin getAdmin(String nane, long number) {
+        if (admin == null) {
+            admin = new Admin(nane, number);
+        }
+        return admin;
+    }
+
+    static ArrayList<Employee> employees;
+
+    private Admin(String fulName, long phoneNumber) {
+        super(fulName, phoneNumber);
+    }
+
+    @Override
+    final String getBasicInformation() {
+        return ("ful name: " + String.valueOf(getFulName()) + '\n' + "phone number: " + String.valueOf(getPhoneNumber()));
+    }
+
+    public static void setEmployees(Employee employee) {
+        employees.add(employee);
+    }
+}
