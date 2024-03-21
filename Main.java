@@ -29,10 +29,31 @@ abstract class Employee extends User {
 
     @Override
     final String getBasicInformation() {
-        return ("ful name: " + String.valueOf(fulName) + '\n' + "phone number: " + String.valueOf(phoneNumber));
+        return ("ful name: " + String.valueOf(fulName) + '\n' + "phone number: " + String.valueOf(phoneNumber)+ '\n'+ "date of employeement: "+ dateOfEmployeement);
     }
 
     abstract void work(int w);
 
-    abstract long getSalary();
+    abstract double getSalary();
+}
+final class FullTimeEmployee extends Employee {
+    int uncountedDays;
+    final private double monthlySalaryRate;
+
+    FullTimeEmployee(String fulName, long phoneNumber, String dateOfEmployeement, int uncountedDays, double monthlySalary) {
+        super(fulName, phoneNumber, dateOfEmployeement);
+        this.monthlySalaryRate = monthlySalary;
+        this.uncountedDays = uncountedDays;
+    }
+
+    @Override
+    double getSalary() {
+        int temp = uncountedDays / 30;
+        uncountedDays = uncountedDays % 30;
+        return ((temp) * 30 * monthlySalaryRate);
+    }
+    @Override
+    void work(int newUncountedDays){
+        uncountedDays+=newUncountedDays;
+    }
 }
